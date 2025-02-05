@@ -1,5 +1,5 @@
 #coding=utf-8
-
+#https://numpy.org/doc/
 import numpy as np
 
 #np.array()创建数组
@@ -120,7 +120,23 @@ print(
     "最小值：", min_1, "\n",
 
 )
-#分割,这里具体的数字均是三维空间中的角标
+#基础切片与步长
+arr = np.array([0,1,2,3,4,5,6,7,8])
+print(arr[1:7:2])  # 输出 [1 3 5]
+
+
+
+#多维数组切片,这里具体的数字均是三维空间中的角标
+
+matrix = np.arange(9).reshape(3,3)
+# 取前两行，所有列
+print(matrix[:1, :])
+# 输出 [[0 1 2], [3 4 5]]
+
+# 取奇数列
+print(matrix[:, 1::2])
+# 输出 [[1], [4], [7]]
+
 
 matrix = np.random.randint(0,10,size=(10,10,3),dtype="int8")
 x_0 = matrix[0,:,:]#指代x=0的平面，也就是y和z组成的二维矩阵
@@ -142,6 +158,35 @@ print(
 
 matrix[:,:,0] = np.clip(matrix[:,:,0] + 100,0,15)
 print(matrix[:,:,0])
+
+#视图与副本
+# 视图：由于np中array本质也是数组，作为可变对象，当变量本身被赋值给其他变量时，二者指向同一块内存
+sub_arr = arr[2:5]
+sub_arr[0] = 100  # 原arr也会被修改
+
+#副本：如果需要独立开来，可以使用.copy函数
+sub_arr = arr[2:5].copy()
+sub_arr[0] = 200  # 原arr不受影响
+
+#布尔索引
+arr = np.array([5, 12, 8, 3, 15])
+mask = arr > 10 #条件筛选
+print(arr[mask])  # 输出 [12 15]
+mask = (arr > 5) & (arr < 15)  # 多条件组合（必须用括号）
+print(arr[mask]) # 输出 [12 8]
+
+#角标索引
+#一维索引
+arr = np.arange(10, 100, 10)  # [10,20,...,90]
+indices = [1, 3, 5]
+print(arr[indices])  # 输出 [20 40 60]
+#多维索引
+matrix = np.arange(12).reshape(3,4)
+rows = [0, 2]
+cols = [1, 3]
+print(matrix[rows, cols])  # 输出 [1, 11]
+pause()
+
 
 
 
